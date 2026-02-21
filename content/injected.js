@@ -284,4 +284,110 @@
   // --- Microsoft UET (array-like) ---
   interceptArrayPush('uetq', 'bing');
 
+  // ─────────────────────────────────────────────────────────────
+  // GTM INTERNAL CONSENT STATE (google_tag_data.ics)
+  // ─────────────────────────────────────────────────────────────
+  // When consent mode is configured via GTM's built-in consent
+  // (e.g., Cookiebot CMP tag template, OneTrust, Didomi), the
+  // default consent state is stored internally in
+  // google_tag_data.ics.entries and never surfaces as a visible
+  // gtag() or dataLayer.push() call. We poll this object.
+
+  var CONSENT_KEYS = [
+    'ad_storage', 'analytics_storage', 'ad_user_data',
+    'ad_personalization', 'functionality_storage',
+    'personalization_storage', 'security_storage'
+  ];
+
+  var _icsLastSignature = '';
+
+  function parseICSEntryState(entry) {
+    if (typeof entry === 'string') return entry;
+    if (typeof entry !== 'object' || entry === null) return null;
+
+    // Known property names in GTM's internal structure
+    if (entry.default !== undefined) return entry.default;
+
+    // GTM minified property — look for any 'granted' or 'denied' value
+    var keys = Object.keys(entry);
+    for (var i = 0; i < keys.length; i++) {
+      var val = entry[keys[i]];
+      if (val === 'granted' || val === 'denied') return val;
+    }
+    return null;
+  }
+
+  function pollGTMConsent() {
+    try {
+      var gtd = window.google_tag_data;
+      if (!gtd || !gtd.ics) return;
+
+      var entries = gtd.ics.entries;
+      if (!entries) return;
+
+      var params = {};
+      var hasAny = false;
+
+      for (var i = 0; i < CONSENT_KEYS.length; i++) {
+        var key = CONSENT_KEYS[i];
+        var entry = entries[key];
+        if (entry === undefined) continue;
+
+        var state = parseICSEntryState(entry);
+        if (state) {
+          params[key] = state;
+          hasAny = true;
+        }
+      }
+
+      if (!hasAny) return;
+
+      // Only emit if state changed since last poll
+      var sig = JSON.stringify(params);
+      if (sig === _icsLastSignature) return;
+
+      var isUpdate = _icsLastSignature !== '';
+      _icsLastSignature = sig;
+
+      emit('consent_gtm_internal', {
+        consentType: isUpdate ? 'update' : 'default',
+        params: params
+      });
+    } catch (e) {}
+  }
+
+  // Listen for CMP-specific events that signal consent changes
+  function setupCMPListeners() {
+    // Cookiebot
+    window.addEventListener('CookiebotOnAccept', function() {
+      setTimeout(pollGTMConsent, 100);
+    });
+    window.addEventListener('CookiebotOnDecline', function() {
+      setTimeout(pollGTMConsent, 100);
+    });
+    // OneTrust
+    window.addEventListener('consent.onetrust', function() {
+      setTimeout(pollGTMConsent, 100);
+    });
+    // Didomi
+    window.addEventListener('didomi-consent-changed', function() {
+      setTimeout(pollGTMConsent, 100);
+    });
+    // Generic: GTM consent update event in dataLayer
+    window.addEventListener('message', function(e) {
+      if (e.data && e.data.event === 'cookie_consent_update') {
+        setTimeout(pollGTMConsent, 100);
+      }
+    });
+  }
+
+  setupCMPListeners();
+
+  // Poll at increasing intervals to catch when GTM populates ics
+  setTimeout(pollGTMConsent, 300);
+  setTimeout(pollGTMConsent, 800);
+  setTimeout(pollGTMConsent, 1500);
+  setTimeout(pollGTMConsent, 3000);
+  setTimeout(pollGTMConsent, 6000);
+
 })();

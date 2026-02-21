@@ -225,6 +225,39 @@ function handleConsentEvent(tabId, args, source) {
   persistTabData(tabId);
 }
 
+function handleConsentFromSource(tabId, consentType, params, source) {
+  var tabData = getTabData(tabId);
+  var consent = tabData.consent;
+  var now = Date.now();
+
+  consent.detected = true;
+
+  if (consentType === 'default' && !consent.defaultFiredAt) {
+    consent.defaultFiredAt = now;
+  }
+  if (consentType === 'update') {
+    if (!consent.updateFiredAt) consent.updateFiredAt = now;
+  }
+
+  consent.timeline.push({
+    type: consentType,
+    params: params,
+    timestamp: now,
+    source: source
+  });
+
+  var pKeys = Object.keys(params);
+  for (var i = 0; i < pKeys.length; i++) {
+    if (consent.state.hasOwnProperty(pKeys[i])) {
+      consent.state[pKeys[i]] = params[pKeys[i]];
+    }
+  }
+
+  computeConsentMode(consent);
+  computeConsentIssues(consent);
+  persistTabData(tabId);
+}
+
 function trackFirstTrackingEvent(tabId) {
   var tabData = getTabData(tabId);
   if (!tabData.consent.firstTrackingAt) {
@@ -523,40 +556,16 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     case 'consent_dom_scan':
       // Fallback: consent detected via DOM scanning of inline scripts
       if (message.data && message.data.consentType) {
-        var tabData = getTabData(tabId);
-        var consent = tabData.consent;
-        // Only process if not already detected via JS interception
-        if (!consent.detected) {
-          consent.detected = true;
-          var now = Date.now();
-          var ct = message.data.consentType;
+        handleConsentFromSource(tabId, message.data.consentType, message.data.params || {}, 'dom');
+      }
+      break;
 
-          if (ct === 'default' && !consent.defaultFiredAt) {
-            consent.defaultFiredAt = now;
-          }
-          if (ct === 'update' && !consent.updateFiredAt) {
-            consent.updateFiredAt = now;
-          }
-
-          var dp = message.data.params || {};
-          consent.timeline.push({
-            type: ct,
-            params: dp,
-            timestamp: now,
-            source: 'dom'
-          });
-
-          var dpKeys = Object.keys(dp);
-          for (var d = 0; d < dpKeys.length; d++) {
-            if (consent.state.hasOwnProperty(dpKeys[d])) {
-              consent.state[dpKeys[d]] = dp[dpKeys[d]];
-            }
-          }
-
-          computeConsentMode(consent);
-          computeConsentIssues(consent);
-          persistTabData(tabId);
-        }
+    case 'consent_gtm_internal':
+      // GTM internal consent state (google_tag_data.ics.entries)
+      // This catches consent set by CMP templates (Cookiebot, OneTrust, etc.)
+      // that configure consent inside GTM without visible gtag()/dataLayer calls
+      if (message.data && message.data.params) {
+        handleConsentFromSource(tabId, message.data.consentType || 'default', message.data.params, 'gtm_internal');
       }
       break;
   }
