@@ -41,7 +41,59 @@
     }
   });
 
-  // ─── 3. DOM Scanning — extract pixel IDs from script tags ──
+  // ─── 3. Consent Mode V2 — DOM fallback scan ───────────────
+  // Scans inline scripts for gtag('consent', ...) patterns that may
+  // fire before our MAIN world interceptor is ready.
+
+  var consentScanned = false;
+
+  function scanConsentInlineScripts() {
+    if (consentScanned) return;
+    consentScanned = true;
+
+    var CONSENT_PARAMS = [
+      'ad_storage', 'analytics_storage', 'ad_user_data',
+      'ad_personalization', 'functionality_storage',
+      'personalization_storage', 'security_storage'
+    ];
+
+    var scripts = document.querySelectorAll('script:not([src])');
+    for (var i = 0; i < scripts.length; i++) {
+      var text = scripts[i].textContent || '';
+      if (text.indexOf('consent') === -1) continue;
+
+      // Match gtag('consent', 'default', {...}) or gtag('consent', 'update', {...})
+      var consentRegex = /gtag\s*\(\s*['"]consent['"]\s*,\s*['"](default|update)['"]\s*,\s*(\{[^}]+\})/g;
+      var match;
+      while ((match = consentRegex.exec(text)) !== null) {
+        var consentType = match[1];
+        var paramsStr = match[2];
+
+        // Parse the params object from the matched text
+        var params = {};
+        for (var p = 0; p < CONSENT_PARAMS.length; p++) {
+          var paramRegex = new RegExp(CONSENT_PARAMS[p] + "\\s*:\\s*['\"]?(granted|denied)['\"]?");
+          var paramMatch = paramsStr.match(paramRegex);
+          if (paramMatch) {
+            params[CONSENT_PARAMS[p]] = paramMatch[1];
+          }
+        }
+
+        try {
+          chrome.runtime.sendMessage({
+            type: 'consent_dom_scan',
+            data: {
+              consentType: consentType,
+              params: params
+            },
+            timestamp: Date.now()
+          });
+        } catch (e) {}
+      }
+    }
+  }
+
+  // ─── 4. DOM Scanning — extract pixel IDs from script tags ──
 
   function scanDOM() {
     var detected = [];
@@ -163,6 +215,9 @@
         detected.push({ platform: 'gtm', id: match[1], source: 'noscript' });
       }
     }
+
+    // --- Consent Mode V2 (DOM fallback scan) ---
+    scanConsentInlineScripts();
 
     // Deduplicate
     var unique = [];

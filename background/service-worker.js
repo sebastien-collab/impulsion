@@ -121,15 +121,27 @@ function isConsentCommand(args) {
 
 function isDataLayerConsentCommand(args) {
   if (!Array.isArray(args)) return false;
-  if (args.length >= 1 && Array.isArray(args[0])) {
-    var inner = args[0];
-    return inner.length >= 2
-      && inner[0] === 'consent'
-      && (inner[1] === 'default' || inner[1] === 'update');
+  if (args.length < 1) return false;
+  var item = args[0];
+
+  // Array form: [['consent', 'default', {...}]]
+  if (Array.isArray(item)) {
+    return item.length >= 2
+      && item[0] === 'consent'
+      && (item[1] === 'default' || item[1] === 'update');
   }
-  if (args.length >= 1 && typeof args[0] === 'object' && args[0] !== null) {
-    var evt = args[0].event;
-    return evt === 'consent_default' || evt === 'consent_update';
+
+  if (typeof item === 'object' && item !== null) {
+    // Arguments-as-object form: [{"0": "consent", "1": "default", "2": {...}}]
+    // (when gtag pushes Arguments to dataLayer, they serialize with numeric keys)
+    if (item['0'] === 'consent' && (item['1'] === 'default' || item['1'] === 'update')) {
+      return true;
+    }
+    // Object form: [{event: 'consent_default'}] or [{event: 'consent_update'}]
+    var evt = item.event;
+    if (evt === 'consent_default' || evt === 'consent_update') {
+      return true;
+    }
   }
   return false;
 }
@@ -142,17 +154,25 @@ function extractConsentData(args, source) {
     type = args[1];
     params = (args.length >= 3 && typeof args[2] === 'object') ? args[2] : {};
   } else if (source === 'dataLayer') {
-    if (Array.isArray(args[0])) {
-      var inner = args[0];
-      type = inner[1];
-      params = (inner.length >= 3 && typeof inner[2] === 'object') ? inner[2] : {};
-    } else if (typeof args[0] === 'object') {
-      var obj = args[0];
-      type = obj.event === 'consent_default' ? 'default' : 'update';
-      params = {};
-      for (var i = 0; i < CONSENT_PARAMS.length; i++) {
-        if (obj[CONSENT_PARAMS[i]] !== undefined) {
-          params[CONSENT_PARAMS[i]] = obj[CONSENT_PARAMS[i]];
+    var item = args[0];
+    if (Array.isArray(item)) {
+      // Array form: ['consent', 'default', {...}]
+      type = item[1];
+      params = (item.length >= 3 && typeof item[2] === 'object') ? item[2] : {};
+    } else if (typeof item === 'object' && item !== null) {
+      // Arguments-as-object form: {"0": "consent", "1": "default", "2": {...}}
+      if (item['0'] === 'consent' && (item['1'] === 'default' || item['1'] === 'update')) {
+        type = item['1'];
+        params = (typeof item['2'] === 'object' && item['2'] !== null) ? item['2'] : {};
+      }
+      // Object form: {event: 'consent_default', ad_storage: 'denied', ...}
+      else if (item.event === 'consent_default' || item.event === 'consent_update') {
+        type = item.event === 'consent_default' ? 'default' : 'update';
+        params = {};
+        for (var i = 0; i < CONSENT_PARAMS.length; i++) {
+          if (item[CONSENT_PARAMS[i]] !== undefined) {
+            params[CONSENT_PARAMS[i]] = item[CONSENT_PARAMS[i]];
+          }
         }
       }
     }
@@ -496,6 +516,46 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         for (var i = 0; i < message.data.length; i++) {
           var item = message.data[i];
           addPixelDetection(tabId, item.platform, item.id, 'dom:' + item.source);
+        }
+      }
+      break;
+
+    case 'consent_dom_scan':
+      // Fallback: consent detected via DOM scanning of inline scripts
+      if (message.data && message.data.consentType) {
+        var tabData = getTabData(tabId);
+        var consent = tabData.consent;
+        // Only process if not already detected via JS interception
+        if (!consent.detected) {
+          consent.detected = true;
+          var now = Date.now();
+          var ct = message.data.consentType;
+
+          if (ct === 'default' && !consent.defaultFiredAt) {
+            consent.defaultFiredAt = now;
+          }
+          if (ct === 'update' && !consent.updateFiredAt) {
+            consent.updateFiredAt = now;
+          }
+
+          var dp = message.data.params || {};
+          consent.timeline.push({
+            type: ct,
+            params: dp,
+            timestamp: now,
+            source: 'dom'
+          });
+
+          var dpKeys = Object.keys(dp);
+          for (var d = 0; d < dpKeys.length; d++) {
+            if (consent.state.hasOwnProperty(dpKeys[d])) {
+              consent.state[dpKeys[d]] = dp[dpKeys[d]];
+            }
+          }
+
+          computeConsentMode(consent);
+          computeConsentIssues(consent);
+          persistTabData(tabId);
         }
       }
       break;
