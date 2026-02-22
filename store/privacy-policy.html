@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impulsion — Privacy Policy</title>
+  <title>impulsion.com — Privacy Policy</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -22,17 +22,18 @@
   </style>
 </head>
 <body>
-  <h1>Impulsion — Privacy Policy</h1>
+  <h1>impulsion.com — Privacy Policy</h1>
   <p class="date">Last updated: February 22, 2026</p>
 
   <h2>Overview</h2>
-  <p>Impulsion is a browser extension that helps digital marketers and media buyers debug tracking pixels and tags on web pages. We are committed to protecting your privacy.</p>
+  <p>impulsion.com is a browser extension that helps digital marketers and media buyers debug tracking pixels, detect tech stacks, and inspect web pages. We are committed to protecting your privacy.</p>
 
   <h2>Data Collection</h2>
-  <p><strong>Impulsion does not collect, store, transmit, or share any personal data.</strong></p>
+  <p><strong>impulsion.com does not collect, store, transmit, or share any personal data.</strong></p>
   <p>All data processing happens locally in your browser. Specifically:</p>
   <ul>
     <li>Pixel detection data is stored temporarily in Chrome's session storage and is automatically cleared when you close the tab.</li>
+    <li>User preferences (language, theme, color history) are stored locally via Chrome's local storage and never leave your browser.</li>
     <li>No data is ever sent to any external server.</li>
     <li>No analytics or telemetry is collected about your usage.</li>
     <li>No cookies are set by the extension.</li>
@@ -40,25 +41,28 @@
   </ul>
 
   <h2>Permissions Explained</h2>
-  <p>Impulsion requests the following browser permissions, each for a specific technical purpose:</p>
+  <p>impulsion.com requests the following browser permissions, each for a specific technical purpose:</p>
   <ul>
     <li><strong>webRequest</strong> — Monitor network requests to detect tracking pixel HTTP calls (e.g., requests to google-analytics.com, facebook.com/tr, etc.). No requests are modified or blocked.</li>
-    <li><strong>host_permissions (all URLs)</strong> — Required to detect tracking pixels on any website you visit. The extension only reads request URLs to identify known pixel patterns.</li>
-    <li><strong>scripting</strong> — Inject a content script into pages to intercept JavaScript tracking function calls (e.g., gtag(), fbq(), ttq.track()).</li>
-    <li><strong>storage</strong> — Store detected pixel data in Chrome's session storage for the current browsing session only.</li>
-    <li><strong>activeTab</strong> — Access the current tab's URL to associate detected pixels with the correct tab.</li>
+    <li><strong>host_permissions (all URLs)</strong> — Required to detect tracking pixels and technologies on any website you visit. The extension only reads request URLs and DOM elements to identify known patterns.</li>
+    <li><strong>scripting</strong> — Inject content scripts to intercept JavaScript tracking calls and provide user-initiated tools (Eye Dropper color picker, Font Inspector).</li>
+    <li><strong>storage</strong> — Store detected pixel data in session storage (cleared per tab) and user preferences in local storage (language, theme).</li>
+    <li><strong>activeTab</strong> — Access the current tab's URL to associate detected data with the correct tab and scope tools to the current site.</li>
+    <li><strong>cookies</strong> — Read and clear cookies for the current domain only, when the user explicitly triggers the "Clear Cookies" action.</li>
+    <li><strong>browsingData</strong> — Clear cached data for the current site only, when the user explicitly triggers the "Clear Cache" action.</li>
   </ul>
 
   <h2>Third-Party Services</h2>
-  <p>Impulsion does not integrate with any third-party services, APIs, or analytics platforms.</p>
+  <p>impulsion.com does not integrate with any third-party services, APIs, or analytics platforms. The Ad Libraries tab provides links to external ad transparency tools (Meta Ad Library, Google Ads Transparency Center, etc.) but no data is shared with these services.</p>
 
   <h2>Data Retention</h2>
-  <p>All data is stored in Chrome's session storage and is automatically deleted when:</p>
+  <p>Detection data (pixels, events, consent, tech stack) is stored in Chrome's session storage and is automatically deleted when:</p>
   <ul>
     <li>You close the tab</li>
     <li>You navigate to a different page</li>
     <li>You close the browser</li>
   </ul>
+  <p>User preferences (language, theme, color history) persist in local storage until the extension is uninstalled.</p>
 
   <h2>Changes to This Policy</h2>
   <p>We may update this privacy policy from time to time. Any changes will be reflected on this page with an updated date.</p>
@@ -66,10 +70,10 @@
   <h2>Contact</h2>
   <p>If you have questions about this privacy policy, you can reach us at:</p>
   <ul>
-    <li>GitHub: <a href="https://github.com/sebastien-collab/impulse-extension/issues">github.com/sebastien-collab/impulse-extension</a></li>
+    <li>GitHub: <a href="https://github.com/sebastien-collab/impulsion/issues">github.com/sebastien-collab/impulsion</a></li>
   </ul>
 
   <h2>Open Source</h2>
-  <p>Impulsion is open source. You can review the complete source code at <a href="https://github.com/sebastien-collab/impulse-extension">github.com/sebastien-collab/impulse-extension</a>.</p>
+  <p>impulsion.com is open source. You can review the complete source code at <a href="https://github.com/sebastien-collab/impulsion">github.com/sebastien-collab/impulsion</a>.</p>
 </body>
 </html>

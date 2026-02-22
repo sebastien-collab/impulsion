@@ -1,45 +1,54 @@
-# Chrome Web Store — Listing Français
+# Chrome Web Store — Listing Francais
 
 ## Description courte (132 chars max)
-Debugger universel de pixels & tags pour media buyers. Détecte GTM, GA4, Meta, TikTok, LinkedIn & 10+ plateformes en temps réel.
+Debugger universel de pixels + detecteur de tech stack pour media buyers. GTM, GA4, Meta, TikTok, LinkedIn & 10+ plateformes.
 
-## Description complète
+## Description complete
 
-### Impulsion — Debugger Universel de Pixels & Tags
+### impulsion.com — Debugger Universel de Pixels & Detecteur de Tech Stack
 
-Impulsion détecte et affiche instantanément chaque pixel de tracking présent sur n'importe quelle page web. Conçu par des media buyers, pour des media buyers.
+impulsion.com detecte et affiche instantanement chaque pixel de tracking et chaque technologie presente sur n'importe quelle page web. Concu par des media buyers, pour des media buyers.
 
-**Plateformes supportées :**
-• Google Tag Manager (GTM)
-• Google Analytics 4 (GA4)
-• Google Ads (tags de conversion)
-• Meta Pixel (Facebook)
-• TikTok Pixel
-• LinkedIn Insight Tag
-• Pinterest Tag
-• Snapchat Pixel
-• Twitter/X Pixel
-• Microsoft Advertising (Bing UET)
+**Plateformes de tracking supportees :**
+- Google Tag Manager (GTM)
+- Google Analytics 4 (GA4)
+- Google Ads (tags de conversion)
+- Meta Pixel (Facebook)
+- TikTok Pixel
+- LinkedIn Insight Tag
+- Pinterest Tag
+- Snapchat Pixel
+- Twitter/X Pixel
+- Microsoft Advertising (Bing UET)
 
-**Fonctionnalités :**
-• Détection en temps réel via 3 méthodes : interception JavaScript, scan DOM et monitoring réseau
-• Extraction des Pixel ID — affiche les IDs exacts configurés sur la page
-• Timeline d'événements — chaque appel tracking loggé avec ses arguments complets
-• Vérification Google Consent Mode V2 — vérifie les commandes default/update, détecte les paramètres V2 manquants (ad_user_data, ad_personalization), identifie le mode Basic vs Advanced
-• Interface sombre et claire avec code couleur par plateforme
-• Zéro impact sur les performances — léger, aucune requête externe
+**5 onglets, un seul outil :**
 
-**Comment ça marche :**
-Clique sur l'icône Impulsion dans ta barre d'outils pour voir tous les pixels détectés sur la page. Déplie chaque carte pixel pour visualiser les événements capturés et leurs paramètres.
+**Pixels** — Detection en temps reel via 3 methodes : interception JavaScript, scan DOM et monitoring reseau. Extraction des Pixel ID, timeline d'evenements avec arguments complets, code couleur par plateforme.
 
-**Vie privée :**
-Impulsion traite tout localement dans ton navigateur. Aucune donnée n'est collectée, stockée ou envoyée. Entièrement open source sur GitHub.
+**Consent** — Verificateur Google Consent Mode V2. Verifie les commandes default/update, detecte les parametres V2 manquants (ad_user_data, ad_personalization), identifie le mode Basic vs Advanced, detection de l'etat de consentement interne GTM.
+
+**Ad Libraries** — Liens directs vers Meta Ad Library, Google Ads Transparency Center, LinkedIn Ad Library et TikTok Creative Center pour le domaine de la page courante. Recherche instantanee de n'importe quel annonceur.
+
+**Stack** — Detection de tech stack style Wappalyzer simplifiee. Identifie 30+ technologies : CMS (WordPress, Shopify, Wix, Webflow...), frameworks JS (React, Next.js, Vue, Angular...), frameworks CSS (Tailwind, Bootstrap...), CDN (Cloudflare, Vercel...) et outils (HubSpot, Hotjar, Stripe, Crisp...).
+
+**Tools** — Pipette couleur Eye Dropper (recupere n'importe quelle couleur de la page avec valeurs hex/RGB/HSL + historique), Inspecteur de polices (survol pour voir famille, taille, graisse, interligne, couleur), Suppression des cookies et du cache du site courant.
+
+**Fonctionnalites cles :**
+- Interface bilingue (Francais / English)
+- Interface sombre et claire — popup 400x600px
+- Zero impact sur les performances — leger, aucune requete externe
+- Tout est traite localement dans ton navigateur
+
+**Vie privee :**
+impulsion.com traite tout localement. Aucune donnee n'est collectee, stockee ou envoyee. Entierement open source sur GitHub.
 
 **Cas d'usage :**
-• Auditer les sites clients pour vérifier l'implémentation des pixels
-• Vérifier que le tracking se déclenche sur les landing pages
-• Debugger les problèmes de conversion tracking
-• Vérifier la conformité Google Consent Mode V2
-• Comparer le setup des pixels sur les sites concurrents
+- Auditer les sites clients pour verifier l'implementation des pixels
+- Verifier que le tracking se declenche sur les landing pages
+- Debugger les problemes de conversion tracking
+- Verifier la conformite Google Consent Mode V2
+- Rechercher les concurrents via les Ad Libraries
+- Identifier les technologies utilisees par un site web
+- Recuperer des couleurs et inspecter les polices sur n'importe quelle page
 
-**Catégorie :** Developer Tools
+**Categorie :** Developer Tools

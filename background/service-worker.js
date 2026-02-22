@@ -12,6 +12,7 @@
  */
 
 importScripts('../shared/pixels.js');
+importScripts('../shared/techstack.js');
 
 // ═══════════════════════════════════════════════════════════════
 // STATE MANAGEMENT
@@ -46,7 +47,8 @@ function getTabData(tabId) {
     tabStore.set(tabId, {
       pixels: new Map(),
       events: [],
-      consent: createEmptyConsentState()
+      consent: createEmptyConsentState(),
+      techstack: []
     });
   }
   return tabStore.get(tabId);
@@ -356,7 +358,8 @@ function persistTabData(tabId) {
   var serializable = {
     pixels: {},
     events: tabData.events,
-    consent: tabData.consent
+    consent: tabData.consent,
+    techstack: tabData.techstack || []
   };
 
   tabData.pixels.forEach(function(pixel, platform) {
@@ -384,7 +387,8 @@ function restoreTabData(tabId) {
     var tabData = {
       pixels: new Map(),
       events: stored.events || [],
-      consent: stored.consent || createEmptyConsentState()
+      consent: stored.consent || createEmptyConsentState(),
+      techstack: stored.techstack || []
     };
 
     Object.keys(stored.pixels).forEach(function(platform) {
@@ -568,6 +572,41 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         handleConsentFromSource(tabId, message.data.consentType || 'default', message.data.params, 'gtm_internal');
       }
       break;
+
+    case 'techstack_results':
+    case 'techstack_globals':
+      if (Array.isArray(message.data)) {
+        var tsTabData = getTabData(tabId);
+        for (var ti = 0; ti < message.data.length; ti++) {
+          var tech = message.data[ti];
+          var existingTech = null;
+          for (var ej = 0; ej < tsTabData.techstack.length; ej++) {
+            if (tsTabData.techstack[ej].name === tech.name) {
+              existingTech = tsTabData.techstack[ej];
+              break;
+            }
+          }
+          if (existingTech) {
+            if (tech.detectedVia && existingTech.detectedVia.indexOf(tech.detectedVia) === -1) {
+              existingTech.detectedVia.push(tech.detectedVia);
+            }
+            if (tech.version && !existingTech.version) {
+              existingTech.version = tech.version;
+            }
+          } else {
+            tsTabData.techstack.push({
+              name: tech.name,
+              category: tech.category,
+              color: tech.color,
+              icon: tech.icon,
+              version: tech.version || null,
+              detectedVia: tech.detectedVia ? [tech.detectedVia] : []
+            });
+          }
+        }
+        persistTabData(tabId);
+      }
+      break;
   }
 });
 
@@ -600,7 +639,7 @@ function handleGetTabData(tabId, sendResponse) {
     if (restored) {
       sendResponse(serializeTabData(restored));
     } else {
-      sendResponse({ pixels: [], events: [], consent: createEmptyConsentState() });
+      sendResponse({ pixels: [], events: [], consent: createEmptyConsentState(), techstack: [] });
     }
   });
 }
@@ -624,7 +663,7 @@ function serializeTabData(tabData) {
   // Return last 200 events
   var events = tabData.events.slice(-200);
 
-  return { pixels: pixels, events: events, consent: tabData.consent };
+  return { pixels: pixels, events: events, consent: tabData.consent, techstack: tabData.techstack || [] };
 }
 
 // ═══════════════════════════════════════════════════════════════

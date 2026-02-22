@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impulsion</title>
+  <title>impulsion.com</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -19,67 +19,140 @@
             <polygon points="0 266.84 .02 375.01 93.68 429.09 93.68 320.93 0 266.84"/>
           </svg>
         </span>
-        <h1 class="title">Impulsion</h1>
+        <h1 class="title">impulsion.com</h1>
       </div>
       <div class="header-right">
+        <div class="lang-toggle" id="langToggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="fr">FR</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle"><span id="themeIcon"></span></button>
         <span class="pixel-count" id="pixelCount">0</span>
-        <span class="pixel-label">pixels</span>
+        <span class="pixel-label" data-i18n="pixels_label">pixels</span>
       </div>
     </header>
 
-    <!-- Platform summary badges -->
-    <div class="summary-bar" id="summaryBar"></div>
+    <!-- Tab bar -->
+    <nav class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-tab="pixels">
+        <span class="tab-icon" id="tabIconPixels"></span>
+        <span data-i18n="tab_pixels">Pixels</span>
+      </button>
+      <button class="tab-btn" data-tab="consent">
+        <span class="tab-icon" id="tabIconConsent"></span>
+        <span data-i18n="tab_consent">Consent</span>
+      </button>
+      <button class="tab-btn" data-tab="adlibs">
+        <span class="tab-icon" id="tabIconAdlibs"></span>
+        <span data-i18n="tab_adlibs">Ad Libs</span>
+      </button>
+      <button class="tab-btn" data-tab="stack">
+        <span class="tab-icon" id="tabIconStack"></span>
+        <span data-i18n="tab_stack">Stack</span>
+      </button>
+      <button class="tab-btn" data-tab="tools">
+        <span class="tab-icon" id="tabIconTools"></span>
+        <span data-i18n="tab_tools">Tools</span>
+      </button>
+    </nav>
 
-    <!-- Consent Mode V2 section -->
-    <div class="consent-section hidden" id="consentSection">
-      <div class="consent-header" id="consentHeader">
-        <div class="consent-header-left">
-          <span class="consent-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <!-- Tab: Pixels -->
+    <div class="tab-content active" data-tab="pixels">
+      <div class="summary-bar" id="summaryBar"></div>
+      <div class="pixel-list" id="pixelList">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10" opacity="0.3"/>
+              <circle cx="12" cy="12" r="6" opacity="0.5"/>
+              <circle cx="12" cy="12" r="2"/>
+              <line x1="12" y1="2" x2="12" y2="5"/>
+              <line x1="12" y1="19" x2="12" y2="22"/>
+              <line x1="2" y1="12" x2="5" y2="12"/>
+              <line x1="19" y1="12" x2="22" y2="12"/>
             </svg>
-          </span>
-          <span class="consent-title">Consent Mode V2</span>
-          <span class="consent-mode-badge" id="consentModeBadge"></span>
+          </div>
+          <p class="empty-text" data-i18n="no_pixels">No pixels detected</p>
+          <p class="empty-hint" data-i18n="no_pixels_hint">Navigate to a page with tracking pixels</p>
         </div>
-        <div class="consent-header-right">
-          <span class="consent-issue-count" id="consentIssueCount"></span>
-          <span class="consent-chevron" id="consentChevron">&#9654;</span>
-        </div>
-      </div>
-      <div class="consent-detail hidden" id="consentDetail">
-        <div class="consent-params" id="consentParams"></div>
-        <div class="consent-issues" id="consentIssues"></div>
-        <div class="consent-timeline" id="consentTimeline"></div>
       </div>
     </div>
 
-    <!-- Pixel list -->
-    <div class="pixel-list" id="pixelList">
-      <div class="empty-state" id="emptyState">
-        <div class="empty-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-            <circle cx="12" cy="12" r="10" opacity="0.3"/>
-            <circle cx="12" cy="12" r="6" opacity="0.5"/>
-            <circle cx="12" cy="12" r="2"/>
-            <line x1="12" y1="2" x2="12" y2="5"/>
-            <line x1="12" y1="19" x2="12" y2="22"/>
-            <line x1="2" y1="12" x2="5" y2="12"/>
-            <line x1="19" y1="12" x2="22" y2="12"/>
-          </svg>
+    <!-- Tab: Consent -->
+    <div class="tab-content" data-tab="consent">
+      <div class="consent-section" id="consentSection">
+        <div class="consent-header" id="consentHeader">
+          <div class="consent-header-left">
+            <span class="consent-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </span>
+            <span class="consent-title" data-i18n="consent_title">Consent Mode V2</span>
+            <span class="consent-mode-badge" id="consentModeBadge"></span>
+          </div>
+          <div class="consent-header-right">
+            <span class="consent-issue-count" id="consentIssueCount"></span>
+            <span class="consent-chevron" id="consentChevron">&#9654;</span>
+          </div>
         </div>
-        <p class="empty-text">No pixels detected</p>
-        <p class="empty-hint">Navigate to a page with tracking pixels</p>
+        <div class="consent-detail hidden" id="consentDetail">
+          <div class="consent-params" id="consentParams"></div>
+          <div class="consent-issues" id="consentIssues"></div>
+          <div class="consent-timeline" id="consentTimeline"></div>
+        </div>
       </div>
+      <div class="consent-empty" id="consentEmpty">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <p class="empty-text" data-i18n="consent_not_detected">Consent Mode not detected on this page</p>
+          <p class="empty-hint" data-i18n="consent_not_detected_hint">Visit a site with Google Consent Mode configured</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Ad Libraries -->
+    <div class="tab-content" data-tab="adlibs">
+      <div class="adlibs-container" id="adLibsContainer"></div>
+    </div>
+
+    <!-- Tab: Tech Stack -->
+    <div class="tab-content" data-tab="stack">
+      <div class="stack-container" id="stackContainer">
+        <div class="empty-state" id="stackEmptyState">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <p class="empty-text" data-i18n="stack_no_tech">No technologies detected</p>
+          <p class="empty-hint" data-i18n="stack_no_tech_hint">Navigate to a page to analyze its tech stack</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Tools -->
+    <div class="tab-content" data-tab="tools">
+      <div class="tools-container" id="toolsContainer"></div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
-      <span class="footer-text">Impulsion v1.0 — Universal Pixel Debugger</span>
+      <span class="footer-text" data-i18n="footer_text">impulsion.com v2.0 — Universal Pixel Debugger</span>
     </footer>
 
   </div>
+  <script src="../shared/i18n.js"></script>
+  <script src="../shared/icons.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

@@ -390,4 +390,71 @@
   setTimeout(pollGTMConsent, 3000);
   setTimeout(pollGTMConsent, 6000);
 
+  // ─────────────────────────────────────────────────────────────
+  // TECH STACK — Global Variable Detection (MAIN world)
+  // ─────────────────────────────────────────────────────────────
+
+  function detectTechGlobals() {
+    var detected = [];
+    var checks = [
+      { global: 'React', alt: '__REACT_DEVTOOLS_GLOBAL_HOOK__', name: 'React', category: 'js_framework', color: '#61DAFB', icon: 'Re' },
+      { global: '__NEXT_DATA__', name: 'Next.js', category: 'js_framework', color: '#000000', icon: 'Nx' },
+      { global: 'Vue', alt: '__VUE__', name: 'Vue.js', category: 'js_framework', color: '#4FC08D', icon: 'V' },
+      { global: '__NUXT__', name: 'Nuxt', category: 'js_framework', color: '#00DC82', icon: 'Nu' },
+      { global: 'ng', alt: 'angular', name: 'Angular', category: 'js_framework', color: '#DD0031', icon: 'Ng' },
+      { global: '__svelte', alt: '__SVELTE_HMR', name: 'Svelte', category: 'js_framework', color: '#FF3E00', icon: 'Sv' },
+      { global: '___gatsby', name: 'Gatsby', category: 'js_framework', color: '#663399', icon: 'Ga' },
+      { global: 'jQuery', alt: '$', name: 'jQuery', category: 'js_framework', color: '#0769AD', icon: '$' },
+      { global: 'Shopify', name: 'Shopify', category: 'cms', color: '#96BF48', icon: 'S' },
+      { global: 'Wix', name: 'Wix', category: 'cms', color: '#0C6EFC', icon: 'Wx' },
+      { global: 'Squarespace', name: 'Squarespace', category: 'cms', color: '#222222', icon: 'Sq' },
+      { global: 'Webflow', name: 'Webflow', category: 'cms', color: '#4353FF', icon: 'Wf' },
+      { global: 'HubSpot', alt: '_hsq', name: 'HubSpot', category: 'tool', color: '#FF7A59', icon: 'Hs' },
+      { global: 'Intercom', name: 'Intercom', category: 'tool', color: '#1F8DED', icon: 'Ic' },
+      { global: 'hj', alt: '_hjSettings', name: 'Hotjar', category: 'tool', color: '#FD3A5C', icon: 'Hj' },
+      { global: 'Stripe', name: 'Stripe', category: 'tool', color: '#635BFF', icon: 'St' },
+      { global: '$crisp', name: 'Crisp', category: 'tool', color: '#1972F5', icon: 'Cr' },
+      { global: 'drift', name: 'Drift', category: 'tool', color: '#0176FF', icon: 'Dr' },
+      { global: 'google', sub: 'maps', name: 'Google Maps', category: 'tool', color: '#4285F4', icon: 'Gm' },
+      { global: 'Cookiebot', alt: 'CookieConsent', name: 'Cookiebot', category: 'tool', color: '#1769FF', icon: 'Cb' },
+      { global: 'OneTrust', name: 'OneTrust', category: 'tool', color: '#1F6B2B', icon: 'Ot' }
+    ];
+
+    for (var i = 0; i < checks.length; i++) {
+      var c = checks[i];
+      var found = false;
+      var version = null;
+
+      try {
+        if (window[c.global] !== undefined && window[c.global] !== null) {
+          found = true;
+          if (window[c.global].version) version = window[c.global].version;
+          if (c.global === 'jQuery' && typeof window[c.global].fn === 'object') {
+            version = window[c.global].fn.jquery || null;
+          }
+        }
+        if (!found && c.alt && window[c.alt] !== undefined && window[c.alt] !== null) {
+          found = true;
+        }
+        if (!found && c.sub && window[c.global] && window[c.global][c.sub]) {
+          found = true;
+        }
+      } catch (e) {}
+
+      if (found) {
+        detected.push({
+          name: c.name, category: c.category, color: c.color,
+          icon: c.icon, version: version, detectedVia: 'global'
+        });
+      }
+    }
+
+    if (detected.length > 0) {
+      emit('techstack_globals', detected);
+    }
+  }
+
+  setTimeout(detectTechGlobals, 1500);
+  setTimeout(detectTechGlobals, 4000);
+
 })();

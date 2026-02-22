@@ -1,0 +1,164 @@
+/**
+ * IMPULSION — Internationalization (i18n)
+ * Translation strings for EN and FR.
+ */
+(function(root) {
+  'use strict';
+
+  root.IMPULSION_I18N = {
+    en: {
+      // Header
+      app_name: 'impulsion.com',
+      pixels_label: 'pixels',
+
+      // Tabs
+      tab_pixels: 'Pixels',
+      tab_consent: 'Consent',
+      tab_adlibs: 'Ad Libs',
+      tab_stack: 'Stack',
+      tab_tools: 'Tools',
+
+      // Pixels tab
+      no_pixels: 'No pixels detected',
+      no_pixels_hint: 'Navigate to a page with tracking pixels',
+      events_singular: 'evt',
+      events_plural: 'evts',
+      no_events: 'No events captured yet',
+      id_pending: 'Detected (ID pending...)',
+
+      // Consent tab
+      consent_title: 'Consent Mode V2',
+      consent_advanced: 'Advanced',
+      consent_basic: 'Basic',
+      consent_no_issues: 'No compliance issues detected',
+      consent_timeline: 'Timeline',
+      consent_not_detected: 'Consent Mode not detected on this page',
+      consent_not_detected_hint: 'Visit a site with Google Consent Mode configured',
+      consent_error_no_default: 'No consent default found \u2014 consent mode may not be active',
+      consent_error_after_tracking: 'Consent default fired AFTER tracking events \u2014 initial hits not covered',
+      consent_warn_missing: 'Missing {param} parameter (required for Consent Mode V2)',
+      consent_warn_no_update: 'No consent update detected \u2014 user choices may not be applied',
+      consent_warn_basic_mode: 'Running in Basic mode \u2014 no data sent to Google until consent is granted',
+
+      // Ad Libraries tab
+      adlibs_title: 'Ad Libraries',
+      adlibs_hint: 'View ads running for this domain',
+      adlibs_meta: 'Meta Ad Library',
+      adlibs_meta_desc: 'Search ads on Facebook & Instagram',
+      adlibs_google: 'Google Ads Transparency',
+      adlibs_google_desc: 'View Google ad activity',
+      adlibs_linkedin: 'LinkedIn Ad Library',
+      adlibs_linkedin_desc: 'Browse LinkedIn advertising',
+      adlibs_tiktok: 'TikTok Creative Center',
+      adlibs_tiktok_desc: 'Explore TikTok ad creatives',
+      adlibs_no_domain: 'Open a website to see ad library links',
+
+      // Stack tab
+      stack_title: 'Tech Stack',
+      stack_no_tech: 'No technologies detected',
+      stack_no_tech_hint: 'Navigate to a page to analyze its tech stack',
+      stack_category_cms: 'CMS / Platform',
+      stack_category_js: 'JavaScript',
+      stack_category_css: 'CSS Frameworks',
+      stack_category_analytics: 'Analytics',
+      stack_category_cdn: 'CDN / Infrastructure',
+      stack_category_tools: 'Tools & Services',
+
+      // Tools tab
+      tools_eyedropper: 'Eye Dropper',
+      tools_eyedropper_btn: 'Pick a color',
+      tools_eyedropper_hint: 'Click to pick a color from the page',
+      tools_font: 'Font Inspector',
+      tools_font_btn_on: 'Activate',
+      tools_font_btn_off: 'Deactivate',
+      tools_font_hint: 'Hover over elements to inspect fonts',
+      tools_clear: 'Clear Data',
+      tools_cookies: 'cookies for this domain',
+      tools_clear_cookies: 'Clear Cookies',
+      tools_clear_cache: 'Clear Cache',
+      tools_cleared: 'Done!',
+      tools_color_hex: 'HEX',
+      tools_color_rgb: 'RGB',
+      tools_color_hsl: 'HSL',
+      tools_color_history: 'History',
+      tools_copy: 'Copied!',
+
+      // Footer
+      footer_text: 'impulsion.com v2.0 \u2014 Universal Pixel Debugger'
+    },
+
+    fr: {
+      app_name: 'impulsion.com',
+      pixels_label: 'pixels',
+
+      tab_pixels: 'Pixels',
+      tab_consent: 'Consent',
+      tab_adlibs: 'Ad Libs',
+      tab_stack: 'Stack',
+      tab_tools: 'Outils',
+
+      no_pixels: 'Aucun pixel d\u00e9tect\u00e9',
+      no_pixels_hint: 'Navigue vers une page avec des pixels de tracking',
+      events_singular: 'evt',
+      events_plural: 'evts',
+      no_events: 'Aucun \u00e9v\u00e9nement captur\u00e9',
+      id_pending: 'D\u00e9tect\u00e9 (ID en attente...)',
+
+      consent_title: 'Consent Mode V2',
+      consent_advanced: 'Advanced',
+      consent_basic: 'Basic',
+      consent_no_issues: 'Aucun probl\u00e8me de conformit\u00e9 d\u00e9tect\u00e9',
+      consent_timeline: 'Chronologie',
+      consent_not_detected: 'Consent Mode non d\u00e9tect\u00e9 sur cette page',
+      consent_not_detected_hint: 'Visite un site avec Google Consent Mode configur\u00e9',
+      consent_error_no_default: 'Aucun consent default trouv\u00e9 \u2014 le consent mode n\'est peut-\u00eatre pas actif',
+      consent_error_after_tracking: 'Consent default d\u00e9clench\u00e9 APR\u00c8S les events tracking \u2014 hits initiaux non couverts',
+      consent_warn_missing: 'Param\u00e8tre {param} manquant (requis pour Consent Mode V2)',
+      consent_warn_no_update: 'Aucun consent update d\u00e9tect\u00e9 \u2014 les choix utilisateur ne sont peut-\u00eatre pas appliqu\u00e9s',
+      consent_warn_basic_mode: 'Mode Basic \u2014 aucune donn\u00e9e envoy\u00e9e \u00e0 Google tant que le consentement n\'est pas accord\u00e9',
+
+      adlibs_title: 'Biblioth\u00e8ques publicitaires',
+      adlibs_hint: 'Voir les publicit\u00e9s pour ce domaine',
+      adlibs_meta: 'Meta Ad Library',
+      adlibs_meta_desc: 'Rechercher les pubs Facebook & Instagram',
+      adlibs_google: 'Google Ads Transparency',
+      adlibs_google_desc: 'Voir l\'activit\u00e9 publicitaire Google',
+      adlibs_linkedin: 'LinkedIn Ad Library',
+      adlibs_linkedin_desc: 'Parcourir les publicit\u00e9s LinkedIn',
+      adlibs_tiktok: 'TikTok Creative Center',
+      adlibs_tiktok_desc: 'Explorer les cr\u00e9ations TikTok',
+      adlibs_no_domain: 'Ouvre un site web pour voir les liens',
+
+      stack_title: 'Stack technique',
+      stack_no_tech: 'Aucune technologie d\u00e9tect\u00e9e',
+      stack_no_tech_hint: 'Navigue vers une page pour analyser sa stack',
+      stack_category_cms: 'CMS / Plateforme',
+      stack_category_js: 'JavaScript',
+      stack_category_css: 'Frameworks CSS',
+      stack_category_analytics: 'Analytics',
+      stack_category_cdn: 'CDN / Infrastructure',
+      stack_category_tools: 'Outils & Services',
+
+      tools_eyedropper: 'Pipette',
+      tools_eyedropper_btn: 'Choisir une couleur',
+      tools_eyedropper_hint: 'Clique pour choisir une couleur sur la page',
+      tools_font: 'Inspecteur de polices',
+      tools_font_btn_on: 'Activer',
+      tools_font_btn_off: 'D\u00e9sactiver',
+      tools_font_hint: 'Survole les \u00e9l\u00e9ments pour inspecter les polices',
+      tools_clear: 'Effacer les donn\u00e9es',
+      tools_cookies: 'cookies pour ce domaine',
+      tools_clear_cookies: 'Effacer les cookies',
+      tools_clear_cache: 'Vider le cache',
+      tools_cleared: 'Termin\u00e9 !',
+      tools_color_hex: 'HEX',
+      tools_color_rgb: 'RVB',
+      tools_color_hsl: 'TSL',
+      tools_color_history: 'Historique',
+      tools_copy: 'Copi\u00e9 !',
+
+      footer_text: 'impulsion.com v2.0 \u2014 Debugger Universel de Pixels'
+    }
+  };
+
+})(typeof window !== 'undefined' ? window : self);
