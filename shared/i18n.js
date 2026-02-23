@@ -63,7 +63,13 @@
       stack_category_cdn: 'CDN / Infrastructure',
       stack_category_tools: 'Tools & Services',
 
-      // Tools tab
+      // Quick toolbar labels
+      qt_eyedropper: 'Color',
+      qt_font: 'Fonts',
+      qt_cookies: 'Cookies',
+      qt_cache: 'Cache',
+
+      // Tools
       tools_eyedropper: 'Eye Dropper',
       tools_eyedropper_btn: 'Pick a color',
       tools_eyedropper_hint: 'Click to pick a color from the page',
@@ -169,6 +175,12 @@
       stack_category_analytics: 'Analytics',
       stack_category_cdn: 'CDN / Infrastructure',
       stack_category_tools: 'Outils & Services',
+
+      // Quick toolbar labels
+      qt_eyedropper: 'Couleur',
+      qt_font: 'Polices',
+      qt_cookies: 'Cookies',
+      qt_cache: 'Cache',
 
       tools_eyedropper: 'Pipette',
       tools_eyedropper_btn: 'Choisir une couleur',

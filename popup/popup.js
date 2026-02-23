@@ -170,11 +170,6 @@
     setInnerHTML('tabIconAdlibs', icons.tab_adlibs);
     setInnerHTML('tabIconStack', icons.tab_stack);
     setInnerHTML('tabIconSeo', icons.tab_seo);
-    // Quick toolbar icons
-    setInnerHTML('qtIconEyeDropper', icons.eyedropper);
-    setInnerHTML('qtIconFont', icons.font);
-    setInnerHTML('qtIconCookies', icons.cookie);
-    setInnerHTML('qtIconCache', icons.cache);
   }
 
   function setInnerHTML(id, html) {
