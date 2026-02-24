@@ -1,43 +1,44 @@
 <p align="center">
-  <img src="icons/logo.svg" alt="Impulsion Logo" width="80" height="80">
+  <img src="icons/logo.svg" alt="Media Buyer Helper Logo" width="80" height="80">
 </p>
 
-<h1 align="center">Impulsion</h1>
+<h1 align="center">Media Buyer Helper</h1>
 
 <p align="center">
-  <strong>Universal Pixel & Tag Debugger for Media Buyers</strong><br>
-  Detect, inspect and debug tracking pixels across 10+ ad platforms — directly from your browser.
+  <strong>Debugger universel de pixels & detecteur de tech stack</strong><br>
+  Verifiez vos implementations de tracking, controlez le consent mode et inspectez n'importe quelle page web — directement depuis votre navigateur.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.0.0-6366F1?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-2.3.0-6366F1?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/manifest-v3-green?style=flat-square" alt="Manifest V3">
-  <img src="https://img.shields.io/badge/build-none_required-blue?style=flat-square" alt="No build step">
-  <img src="https://img.shields.io/badge/languages-EN%20%7C%20FR-orange?style=flat-square" alt="EN | FR">
+  <img src="https://img.shields.io/badge/build-aucun-blue?style=flat-square" alt="Pas de build">
+  <img src="https://img.shields.io/badge/langues-EN%20%7C%20FR-orange?style=flat-square" alt="EN | FR">
 </p>
 
 ---
 
-## What is Impulsion?
+## Qu'est-ce que Media Buyer Helper ?
 
-Impulsion is a Chrome extension built for **media buyers, growth marketers, and web analysts** who need to quickly audit which tracking pixels are firing on any website.
+Media Buyer Helper est une extension Chrome concue pour les **media buyers, growth marketers et web analystes** qui ont besoin d'auditer rapidement les pixels de tracking actifs sur n'importe quel site web.
 
-Open the popup on any page and instantly see every detected pixel, its events, payloads, consent status, tech stack, and more — without touching DevTools.
+Ouvrez le popup sur n'importe quelle page et visualisez instantanement chaque pixel detecte, ses evenements, payloads, statut de consentement, tech stack, et plus — sans ouvrir les DevTools.
 
-### Key Features
+### Fonctionnalites principales
 
-| Feature | Description |
+| Fonctionnalite | Description |
 |---|---|
-| **Pixel Detection** | Real-time detection of GTM, GA4, Meta (Facebook), TikTok, LinkedIn, Pinterest, Snapchat, X (Twitter), Bing UET & more |
-| **Event Inspector** | Chronological event log with full JSON payloads, syntax-highlighted and expandable |
-| **Consent Auditor** | Full Google Consent Mode V2 compliance check — basic vs advanced mode, timing analysis, error/warning reports |
-| **Ad Libraries** | One-click links to Meta, Google, LinkedIn & TikTok ad transparency portals for the current domain |
-| **Tech Stack** | Wappalyzer-style detection of CMS, JS frameworks, CSS libraries, CDN, and third-party services |
-| **Dev Tools** | Eye dropper (with color history), font inspector (hover overlay), cookie & cache cleaner |
-| **Dark / Light mode** | Full theme support, dark by default |
-| **Bilingual** | English & French, auto-detected from browser language |
+| **Detection de pixels** | Detection en temps reel sur 10+ plateformes publicitaires via une analyse triple couche |
+| **Inspecteur d'evenements** | Journal chronologique des evenements avec payloads JSON complets, coloration syntaxique et details depliables |
+| **Auditeur Consent** | Verification complete Google Consent Mode V2 — mode basic vs advanced, analyse du timing, rapports d'erreurs/alertes |
+| **Ad Libraries** | Liens directs vers les portails de transparence publicitaire pour le domaine courant |
+| **Tech Stack** | Detection des CMS, frameworks JS, librairies CSS, CDN et services tiers |
+| **Auditeur SEO** | Checklist SEO on-page avec score, structure des titres, meta tags et analyse Open Graph |
+| **Outils Dev** | Pipette couleur (avec historique), inspecteur de polices (overlay au survol), capture d'ecran, nettoyage cookies & cache |
+| **Mode sombre / clair** | Support complet des themes, sombre par defaut |
+| **Bilingue** | Francais & anglais, detection automatique depuis la langue du navigateur |
 
-### Supported Platforms
+### Plateformes supportees
 
 <table>
   <tr>
@@ -58,131 +59,131 @@ Open the popup on any page and instantly see every detected pixel, its events, p
 
 ---
 
-## How It Works
+## Comment ca marche
 
-Impulsion uses a **triple-layer detection system** to catch every tracking pixel, even those loaded dynamically or via tag managers:
+Media Buyer Helper utilise un **systeme de detection triple couche** pour capturer chaque pixel de tracking, meme ceux charges dynamiquement ou via des tag managers :
 
-1. **JS Interceptor** — Injected into the page's main world at `document_start`, it traps global variables (`fbq`, `gtag`, `ttq`, etc.) *before* any tracking library loads, capturing every function call and its arguments in real-time.
+1. **Intercepteur JS** — Injecte dans le monde principal de la page a `document_start`, il intercepte les variables globales (`fbq`, `gtag`, `ttq`, etc.) *avant* le chargement de toute librairie de tracking, capturant chaque appel de fonction et ses arguments en temps reel.
 
-2. **DOM Scanner** — Scans all `<script>` and `<noscript>` tags for known pixel patterns. Runs at page load and again after 3 seconds to catch late-loaded scripts.
+2. **Scanner DOM** — Scanne toutes les balises `<script>` et `<noscript>` a la recherche de patterns de pixels connus. S'execute au chargement de la page puis a nouveau apres 3 secondes pour attraper les scripts charges tardivement.
 
-3. **Network Monitor** — Listens to outgoing requests to known tracking domains via `chrome.webRequest`, catching pixels that bypass JavaScript entirely (e.g. noscript image beacons).
+3. **Moniteur reseau** — Ecoute les requetes sortantes vers les domaines de tracking connus via `chrome.webRequest`, capturant les pixels qui contournent completement JavaScript (ex. balises image noscript).
 
-All three layers feed into a unified state store, giving you a complete picture in a single popup.
+Les trois couches alimentent un store d'etat unifie, offrant une vue complete dans un seul popup.
 
 ---
 
 ## Installation
 
-> Impulsion is not yet on the Chrome Web Store. You can install it manually as an unpacked extension.
+### Depuis le Chrome Web Store
 
-### Step 1 — Download the source
+Installez directement depuis le [Chrome Web Store](https://chromewebstore.google.com/detail/dhgbmhfobmeeandahabdhikkbmocphcn).
 
-**Option A: Clone the repo**
+### Installation manuelle (mode developpeur)
+
+#### Etape 1 — Telecharger le code source
+
+**Option A : Cloner le repo**
 
 ```bash
 git clone https://github.com/sebastien-collab/impulsion.git
 ```
 
-**Option B: Download as ZIP**
+**Option B : Telecharger en ZIP**
 
-Click the green **Code** button at the top of this page → **Download ZIP**, then unzip the folder.
+Cliquez sur le bouton vert **Code** en haut de cette page, puis **Download ZIP** et dezippez le dossier.
 
-### Step 2 — Load in Chrome
+#### Etape 2 — Charger dans Chrome
 
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable **Developer mode** (toggle in the top-right corner)
-3. Click **Load unpacked**
-4. Select the `impulsion` folder (the one containing `manifest.json`)
-5. The Impulsion icon appears in your toolbar — you're ready to go!
+1. Ouvrez Chrome et allez sur `chrome://extensions/`
+2. Activez le **Mode developpeur** (toggle en haut a droite)
+3. Cliquez sur **Charger l'extension non empaquetee**
+4. Selectionnez le dossier contenant `manifest.json`
+5. L'icone de l'extension apparait dans votre barre d'outils — c'est pret !
 
-> **Tip:** Pin the extension to your toolbar for quick access (click the puzzle icon → pin Impulsion).
+> **Astuce :** Epinglez l'extension dans votre barre d'outils pour un acces rapide (cliquez sur l'icone puzzle et epinglez-la).
 
-### Updating
+### Mise a jour
 
-Pull the latest changes and reload:
+Tirez les derniers changements et rechargez :
 
 ```bash
-cd impulsion
 git pull
 ```
 
-Then go to `chrome://extensions/` and click the **reload** button (↻) on the Impulsion card.
+Puis allez sur `chrome://extensions/` et cliquez sur le bouton **recharger** sur la carte de l'extension.
 
 ---
 
-## Usage
+## Utilisation
 
-1. Navigate to any website
-2. Click the **Impulsion** icon in your toolbar
-3. Browse the 5 tabs:
-   - **Pixels** — See all detected tracking pixels and their events
-   - **Consent** — Audit Google Consent Mode V2 compliance
-   - **Ad Libraries** — Jump to ad transparency portals
-   - **Stack** — Discover the site's tech stack
-   - **Tools** — Pick colors, inspect fonts, clear cookies
+1. Naviguez vers n'importe quel site web
+2. Cliquez sur l'icone **Media Buyer Helper** dans votre barre d'outils
+3. Parcourez les 5 onglets :
+   - **Pixels** — Tous les pixels de tracking detectes et leurs evenements
+   - **Consent** — Audit de conformite Google Consent Mode V2
+   - **Ad Libraries** — Acces direct aux portails de transparence publicitaire
+   - **Stack** — Decouvrez la stack technique du site
+   - **SEO** — Analysez les facteurs SEO on-page
 
-The badge on the extension icon shows the number of detected pixels on the current page.
+La barre d'outils rapide en haut donne un acces instantane a : pipette couleur, inspecteur de polices, nettoyage cookies/cache et captures d'ecran.
 
----
-
-## Privacy
-
-Impulsion is **100% local and privacy-first**:
-
-- Zero external network requests — all detection happens in your browser
-- No data collection, no analytics, no telemetry
-- All pixel data is stored in session storage and cleared when the tab is closed
-- Only your preferences (theme, language, color history) are persisted locally
+Le badge sur l'icone de l'extension affiche le nombre de pixels detectes sur la page courante.
 
 ---
 
-## Tech Stack
+## Vie privee
 
-- **Vanilla JavaScript** (ES6) — no frameworks, no bundler, no build step
+Media Buyer Helper est **100% local et respectueux de la vie privee** :
+
+- Zero requete reseau externe — toute la detection se fait dans votre navigateur
+- Aucune collecte de donnees, pas d'analytics, pas de telemetrie
+- Toutes les donnees de pixels sont stockees en session storage et supprimees a la fermeture de l'onglet
+- Seules vos preferences (theme, langue, historique de couleurs) sont persistees localement
+
+[Politique de confidentialite](https://sebastien-collab.github.io/impulsion/store/privacy-policy.html) complete.
+
+---
+
+## Stack technique
+
+- **JavaScript vanilla** (ES6) — pas de framework, pas de bundler, pas de build
 - **Chrome Extensions Manifest V3**
-- **Pure CSS** with custom properties for theming
-- **Chrome APIs**: `webRequest`, `scripting`, `storage`, `cookies`, `browsingData`
+- **CSS pur** avec custom properties pour le theming
+- **APIs Chrome** : `webRequest`, `scripting`, `storage`, `cookies`, `browsingData`
 
 ---
 
-## Project Structure
+## Structure du projet
 
 ```
-impulsion/
-├── manifest.json           # Extension manifest (MV3)
+├── manifest.json           # Manifeste de l'extension (MV3)
 ├── background/
-│   └── service-worker.js   # Network monitoring, state management, badge
+│   └── service-worker.js   # Monitoring reseau, gestion d'etat, badge
 ├── content/
-│   ├── content.js          # DOM scanner (isolated world)
-│   └── injected.js         # JS interceptor (main world)
+│   ├── content.js          # Scanner DOM + analyse SEO (monde isole)
+│   └── injected.js         # Intercepteur JS (monde principal)
 ├── popup/
-│   ├── popup.html          # 5-tab popup UI
-│   ├── popup.css           # Dark/light theme styles
-│   └── popup.js            # All popup logic
+│   ├── popup.html          # Interface popup 5 onglets
+│   ├── popup.css           # Styles theme sombre/clair
+│   └── popup.js            # Logique du popup
 ├── shared/
-│   ├── pixels.js           # Platform definitions
-│   ├── techstack.js        # Tech stack signatures
-│   ├── i18n.js             # EN/FR translations
-│   └── icons.js            # SVG icon library
-├── icons/                  # Extension icons & logo
-└── store/                  # Web Store descriptions & privacy policy
+│   ├── pixels.js           # Definitions des plateformes
+│   ├── techstack.js        # Signatures tech stack
+│   ├── i18n.js             # Traductions EN/FR
+│   └── icons.js            # Bibliotheque d'icones SVG
+├── icons/                  # Icones & logo de l'extension
+└── store/                  # Descriptions Web Store & politique de confidentialite
 ```
 
 ---
 
-## Contributing
+## Contribuer
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
-
----
-
-## License
-
-This project is currently unlicensed. All rights reserved.
+Les contributions sont les bienvenues ! N'hesitez pas a ouvrir une issue ou soumettre une pull request.
 
 ---
 
-<p align="center">
-  Built for media buyers who want to see what's really firing. 🎯
-</p>
+## Licence
+
+Ce projet n'est pas sous licence pour le moment. Tous droits reserves.
