@@ -73,12 +73,6 @@ Les trois couches alimentent un store d'etat unifie, offrant une vue complete da
 
 ---
 
-## Installation
-
-### Depuis le Chrome Web Store
-
-Installez directement depuis le [Chrome Web Store](https://chromewebstore.google.com/detail/dhgbmhfobmeeandahabdhikkbmocphcn).
-
 ### Installation manuelle (mode developpeur)
 
 #### Etape 1 — Telecharger le code source
